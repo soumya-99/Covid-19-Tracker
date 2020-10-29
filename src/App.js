@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import { FormControl, MenuItem, Select, InputLabel } from "@material-ui/core";
+import {
+  FormControl,
+  MenuItem,
+  Select,
+  InputLabel,
+  Card,
+  CardContent,
+} from "@material-ui/core";
 import InfoBox from "./InfoBox";
+import Map from "./Map";
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -37,40 +45,53 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="app__header">
-        <h1>Covid-19 Tracker</h1>
-        <FormControl className="app__dropdown">
-          <Select variant="outlined" onChange={onCountryChange} value={country}>
-            <MenuItem value="worldwide">Worldwide</MenuItem>
+    <div className="app">
+      <div className="app__left">
+        <div className="app__header">
+          <h1>Covid-19 Tracker</h1>
+          <FormControl className="app__dropdown">
+            <Select
+              variant="outlined"
+              onChange={onCountryChange}
+              value={country}
+            >
+              <MenuItem value="worldwide">Worldwide</MenuItem>
 
-            {/* LOOP THROUGH ALL THE COUNTRIES AND SHOW A DROPDOWN LIST OF THE OPTIONS */}
-            {countries.map((country) => (
-              <MenuItem value={country.value}>{country.name}</MenuItem>
-              // value and name is the mapped value
-            ))}
+              {/* LOOP THROUGH ALL THE COUNTRIES AND SHOW A DROPDOWN LIST OF THE OPTIONS */}
+              {countries.map((country) => (
+                <MenuItem value={country.value}>{country.name}</MenuItem>
+                // value and name is the mapped value
+              ))}
 
-            {/* <MenuItem variant="worldwide">Worldwide</MenuItem>
+              {/* <MenuItem variant="worldwide">Worldwide</MenuItem>
             <MenuItem variant="worldwide">Option 2</MenuItem>
             <MenuItem variant="worldwide">Option 3</MenuItem>
             <MenuItem variant="worldwide">Option 4</MenuItem> */}
-          </Select>
-        </FormControl>
+            </Select>
+          </FormControl>
+        </div>
+
+        <div className="app__stats">
+          {/* InfoBoxes title="Coronavirus Cases" */}
+          {/* InfoBoxes title="Coronavirus Recoveries" */}
+          {/* InfoBoxes title="Coronavirus Deaths" */}
+          <InfoBox title="Coronavirus Cases" cases={12345} total={2000} />
+          <InfoBox title="Recovered" cases={1234} total={5000} />
+          <InfoBox title="Deaths" cases={123} total={100} />
+        </div>
+
+        {/* Map */}
+        <Map />
       </div>
 
-      <div className="app__stats">
-        {/* InfoBoxes title="Coronavirus Cases" */}
-        {/* InfoBoxes title="Coronavirus Recoveries" */}
-        {/* InfoBoxes title="Coronavirus Deaths" */}
-        <InfoBox title="Coronavirus Cases" cases={12345} total={2000} />
-        <InfoBox title="Recovered" cases={1234} total={5000} />
-        <InfoBox title="Deaths" cases={123} total={100} />
-      </div>
-
-      {/* Table */}
-      {/* Graph */}
-
-      {/* Map */}
+      <Card className="app__right">
+        <CardContent>
+          <h3>Live Cases By Country</h3>
+          {/* Table */}
+          <h3>Worldwide New Cases</h3>
+          {/* Graph */}
+        </CardContent>
+      </Card>
     </div>
   );
 }
