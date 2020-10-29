@@ -14,12 +14,25 @@ import Map from "./Map";
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
+  const [countryInfo, setCountryInfo] = useState({});
+
+  //this is for fetching data at first after the component loads
+  useEffect(() => {
+    fetch("https://disease.sh/v3/covid-19/all")
+      .then((response) => response.json())
+      .then((data) => {
+        setCountryInfo(data);
+      });
+  }, []);
+
+  // this is for individual country
 
   //API: https://disease.sh/v3/covid-19/countries
 
   useEffect(() => {
     // async -> send a request to a server, wait for it, do something with input
 
+    // ==============This is for the dropdown list============
     const getCountriesData = async () => {
       await fetch("https://disease.sh/v3/covid-19/countries")
         .then((response) => response.json())
@@ -36,13 +49,32 @@ function App() {
     getCountriesData();
   }, []);
 
+  // ==========This is for all country triggered values==============
+
   const onCountryChange = async (event) => {
     const countryCode = event.target.value;
 
-    console.log(countryCode);
+    // console.log(countryCode);
 
-    setCountry(countryCode);
+    const url =
+      countryCode === "worldwide"
+        ? "https://disease.sh/v3/covid-19/all"
+        : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setCountry(countryCode);
+
+        //All the data from the country response
+        setCountryInfo(data);
+      });
+
+    //API: https://disease.sh/v3/covid-19/all
+    //API: https://disease.sh/v3/covid-19/countries/[COUNTRY_CODE]
   };
+
+  console.log(countryInfo);
 
   return (
     <div className="app">
@@ -75,9 +107,21 @@ function App() {
           {/* InfoBoxes title="Coronavirus Cases" */}
           {/* InfoBoxes title="Coronavirus Recoveries" */}
           {/* InfoBoxes title="Coronavirus Deaths" */}
-          <InfoBox title="Coronavirus Cases" cases={12345} total={2000} />
-          <InfoBox title="Recovered" cases={1234} total={5000} />
-          <InfoBox title="Deaths" cases={123} total={100} />
+          <InfoBox
+            title="Coronavirus Cases"
+            cases={countryInfo.todayCases}
+            total={countryInfo.cases}
+          />
+          <InfoBox
+            title="Recovered"
+            cases={countryInfo.todayRecovered}
+            total={countryInfo.recovered}
+          />
+          <InfoBox
+            title="Deaths"
+            cases={countryInfo.todayDeaths}
+            total={countryInfo.deaths}
+          />
         </div>
 
         {/* Map */}
