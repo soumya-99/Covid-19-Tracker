@@ -42,7 +42,7 @@ export const sortData = (data) => {
 };
 
 export const prettyPrintStat = (stat) =>
-  stat ? `+${numeral(stat).format("0.0")}` : "+0";
+  stat ? `+${numeral(stat).format("0,0")}` : "+0";
 
 // DRAW circles on the map with inteactive tooltips
 export const showDataOnMap = (data, casesType = "cases") =>

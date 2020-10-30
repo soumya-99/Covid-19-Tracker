@@ -22,6 +22,7 @@ function App() {
   const [mapCenter, setMapCenter] = useState({ lat: 20.5937, lng: 78.9629 });
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
+  const [casesType, setCasesType] = useState("cases");
 
   //this is for fetching data at first after the component loads
   useEffect(() => {
@@ -126,16 +127,19 @@ function App() {
           {/* InfoBoxes title="Coronavirus Recoveries" */}
           {/* InfoBoxes title="Coronavirus Deaths" */}
           <InfoBox
+            onClick={(e) => setCasesType("cases")}
             title="Coronavirus Cases"
             cases={prettyPrintStat(countryInfo.todayCases)}
             total={countryInfo.cases}
           />
           <InfoBox
+            onClick={(e) => setCasesType("recovered")}
             title="Recovered"
             cases={prettyPrintStat(countryInfo.todayRecovered)}
             total={countryInfo.recovered}
           />
           <InfoBox
+            onClick={(e) => setCasesType("deaths")}
             title="Deaths"
             cases={prettyPrintStat(countryInfo.todayDeaths)}
             total={countryInfo.deaths}
@@ -143,7 +147,12 @@ function App() {
         </div>
 
         {/* Map */}
-        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
+        <Map
+          casesType={casesType}
+          countries={mapCountries}
+          center={mapCenter}
+          zoom={mapZoom}
+        />
       </div>
 
       <Card className="app__right">
