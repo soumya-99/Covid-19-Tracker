@@ -77,7 +77,7 @@ function LineGraph({ casesType = "cases" }) {
         .then((data) => {
           //clever stuff here
 
-          let chartData = buildChartData(data, "cases");
+          let chartData = buildChartData(data, casesType);
           // console.log(chartData);
           setData(chartData);
         });
