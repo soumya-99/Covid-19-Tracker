@@ -78,7 +78,7 @@ function LineGraph({ casesType = "cases" }) {
           //clever stuff here
 
           let chartData = buildChartData(data, "cases");
-          console.log(chartData);
+          // console.log(chartData);
           setData(chartData);
         });
     };
@@ -88,7 +88,6 @@ function LineGraph({ casesType = "cases" }) {
 
   return (
     <div>
-      <h1>I'm a graph</h1>
       {data?.length > 0 && (
         <Line
           options={options}

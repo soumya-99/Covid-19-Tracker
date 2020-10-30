@@ -12,12 +12,15 @@ import Map from "./Map";
 import Table from "./Table";
 import { sortData } from "./util";
 import LineGraph from "./LineGraph";
+import "leaflet/dist/leaflet.css";
 
 function App() {
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
+  const [mapCenter, setMapCenter] = useState({ lat: 20.5937, lng: 78.9629 });
+  const [mapZoom, setMapZoom] = useState(3);
 
   //this is for fetching data at first after the component loads
   useEffect(() => {
@@ -73,13 +76,19 @@ function App() {
 
         //All the data from the country response
         setCountryInfo(data);
+
+        // console.log(data);
+
+        //To go wherever I want in map....
+        setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+        setMapZoom(4);
       });
 
     //API: https://disease.sh/v3/covid-19/all
     //API: https://disease.sh/v3/covid-19/countries/[COUNTRY_CODE]
   };
 
-  console.log(countryInfo);
+  // console.log(countryInfo);
 
   return (
     <div className="app">
@@ -130,7 +139,7 @@ function App() {
         </div>
 
         {/* Map */}
-        <Map />
+        <Map center={mapCenter} zoom={mapZoom} />
       </div>
 
       <Card className="app__right">
