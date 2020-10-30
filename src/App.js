@@ -21,6 +21,7 @@ function App() {
   const [tableData, setTableData] = useState([]);
   const [mapCenter, setMapCenter] = useState({ lat: 20.5937, lng: 78.9629 });
   const [mapZoom, setMapZoom] = useState(3);
+  const [mapCountries, setMapCountries] = useState([])
 
   //this is for fetching data at first after the component loads
   useEffect(() => {
@@ -50,6 +51,9 @@ function App() {
 
           const sortedData = sortData(data);
           setTableData(sortedData);
+
+          //setCountries is used for fetching all data and draw circles on the map
+          setMapCountries(data);
           setCountries(countries);
         });
     };
@@ -139,7 +143,7 @@ function App() {
         </div>
 
         {/* Map */}
-        <Map center={mapCenter} zoom={mapZoom} />
+        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
 
       <Card className="app__right">
