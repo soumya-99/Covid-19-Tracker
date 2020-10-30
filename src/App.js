@@ -99,7 +99,7 @@ function App() {
     <div className="app">
       <div className="app__left">
         <div className="app__header">
-          <h1>Covid-19 Tracker</h1>
+          <h1>CoronaVirus-19 Tracker</h1>
           <FormControl className="app__dropdown">
             <Select
               variant="outlined"
@@ -127,18 +127,23 @@ function App() {
           {/* InfoBoxes title="Coronavirus Recoveries" */}
           {/* InfoBoxes title="Coronavirus Deaths" */}
           <InfoBox
+          isOrange
+          active={casesType === 'cases'}
             onClick={(e) => setCasesType("cases")}
             title="Coronavirus Cases"
             cases={prettyPrintStat(countryInfo.todayCases)}
             total={countryInfo.cases}
           />
           <InfoBox
+          active={casesType === 'recovered'}
             onClick={(e) => setCasesType("recovered")}
             title="Recovered"
             cases={prettyPrintStat(countryInfo.todayRecovered)}
             total={countryInfo.recovered}
           />
           <InfoBox
+          isRed
+          active={casesType === 'deaths'}
             onClick={(e) => setCasesType("deaths")}
             title="Deaths"
             cases={prettyPrintStat(countryInfo.todayDeaths)}
@@ -160,7 +165,11 @@ function App() {
           <h3>Live Cases By Country</h3>
           {/* Table */}
           <Table countries={tableData} />
+          <hr/>
+          <br/>
           <h3>Worldwide New {casesType}</h3>
+          <hr/>
+          <br/>
           {/* Graph */}
           <LineGraph casesType={casesType} />
         </CardContent>
